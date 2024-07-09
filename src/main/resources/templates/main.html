@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HTTP Snooper</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .details {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .details tr:nth-child(even){background-color: #f2f2f2;}
+
+        .details tr:hover {background-color: #ddd;}
+
+        .details th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>HTTP Snooper</h1>
+<p>This page shows HTTPServletRequest attributes as observed in a SpringBoot application.</p>
+
+<p>Take this <a th:href="@{redirector}">link</a> to try redirecting.</p>
+
+<h2>Basic Request Attributes</h2>
+<table class="details">
+    <tr>
+        <th>Request Method</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>isSecure()</td>
+        <td th:text="${snooped.secure}"/>
+    </tr>
+    <tr>
+        <td>getContextPath()</td>
+        <td th:text="${snooped.contextPath}"/>
+    </tr>
+    <tr>
+        <td>getServletPath()</td>
+        <td th:text="${snooped.servletPath}"/>
+    </tr>
+    <tr>
+        <td>getQueryString()</td>
+        <td th:text="${snooped.queryString}"/>
+    </tr>
+    <tr>
+        <td>getLocalAddr()</td>
+        <td th:text="${snooped.localAddr}"/>
+    </tr>
+    <tr>
+        <td>getLocalName()</td>
+        <td th:text="${snooped.localName}"/>
+    </tr>
+    <tr>
+        <td>getLocalPort()</td>
+        <td th:text="${snooped.localPort}"/>
+    </tr>
+    <tr>
+        <td>getServerPort()</td>
+        <td th:text="${snooped.serverPort}"/>
+    </tr>
+    <tr>
+        <td>getRemoteAddr()</td>
+        <td th:text="${snooped.remoteAddr}"/>
+    </tr>
+    <tr>
+        <td>getRemotePort()</td>
+        <td th:text="${snooped.remotePort}"/>
+    </tr>
+</table>
+
+<h2>Request Headers</h2>
+<table class="details">
+    <tr>
+        <th>Header</th>
+        <th>Value</th>
+    </tr>
+    <tr th:each="header : ${snooped.getRequestHeaders()}">
+        <td th:text="${header.key}"/>
+        <td th:text="${header.value}"/>
+    </tr>
+</table>
+
+<h2>Session Attributes</h2>
+<p th:if="${snooped.getSessionAttributes().isEmpty()}"> No Session Attributes</p>
+
+<table class="details" th:if="${!snooped.getSessionAttributes().isEmpty()}">
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+    </tr>
+    <tr th:each="header : ${snooped.getSessionAttributes()}">
+        <td th:text="${header.key}"/>
+        <td th:text="${header.value}"/>
+    </tr>
+</table>
+</body>
+</html>

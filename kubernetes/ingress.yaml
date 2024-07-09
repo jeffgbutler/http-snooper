@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-introspector
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: http-introspector.tkgs.tanzuathome.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: http-snooper
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  # This section is only required if TLS is to be enabled for the Ingress
+  tls:
+    - hosts:
+        - http-introspector.tkgs.tanzuathome.net
+      secretName: http-introspector-tls-cert

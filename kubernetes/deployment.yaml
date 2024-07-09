@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-snooper
+  labels:
+    app: http-snooper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: http-snooper
+  template:
+    metadata:
+      labels:
+        app: http-snooper
+    spec:
+      containers:
+        - name: http-snooper
+          image: jeffgbutler/http-snooper:0.0.1-SNAPSHOT
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
